@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Web Page</title>
+    <style>
+        body {
+            font-family:Arial,sans-serif;
+            max-width:800px;
+            margin:50px auto;
+            padding:20px;
+            background-color:#f5f5f5;
+        }
+        h1 {
+            color:#333;
+            border-bottom:3px solid #007bff;
+            padding-bottom:10px;
+        }
+        .term {
+            background-color:#fff;
+            border-left:4px solid #007bff;
+            padding:15px;
+            margin:10px 0;
+            border-radius:4px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.1);
+        }
+        .term h3 {
+            margin-top:0;
+            color:#007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Development Fundamentals</h1>
+    <p>This page is served by a browser (client) from a local file.
+       In production, it would be served by a web server.</p>
+
+    <div class="term">
+        <h3>Internet</h3>
+        <p>A global network of interconnected computers.</p>
+    </div>
+
+    <div class="term">
+        <h3>World Wide Web</h3>
+        <p>A service running on the Internet that uses HTTP
+           to serve web pages.</p>
+    </div>
+
+    <div class="term">
+        <h3>Browser</h3>
+        <p>The software you are using RIGHT NOW to view this page.
+           Check your browser:</p>
+        <p id="browser-info"></p>
+    </div>
+
+    <div class="term">
+        <h3>DNS</h3>
+        <p>Translates domain names to IP addresses.</p>
+    </div>
+
+    <script>
+        // JavaScript can detect browser information
+        const browserInfo = document.getElementById('browser-info');
+        browserInfo.textContent= `User Agent: ${navigator.userAgent}`;
+        console.log('This page is running in the browser (client-side).');
+        console.log('Open DevTools (F12) to see this message!');
+    </script>
+</body>
+</html>
