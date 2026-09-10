@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request-Response Cycle Simulation</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body {
+            font-family:'Segoe UI',Tahoma, Geneva,Verdana,sans-serif;
+            background:#1a1a2e;
+            color:#eee;
+            min-height:100vh;
+            padding:30px;
+        }
+
+        h1 {
+            text-align:center;
+            margin-bottom:30px;
+            color:#00d4ff;
+        }
+
+        .cycle-container {
+            max-width:700px;
+            margin:0 auto;
+        }
+
+        .step {
+            background:#16213e;
+            border:1px solid #0f3460;
+            border-radius:8px;
+            padding:20px;
+            margin:10px 0;
+            opacity:0.3;
+            transition:all 0.5s ease;
+            position:relative;
+        }
+
+        .step.active {
+            opacity:1;
+            border-color:#00d4ff;
+            box-shadow:0 0 15px rgba(0,212,255,0.3);
+        }
+
+        .step.completed {
+            opacity:0.7;
+            border-color:#00ff88;
+        }
+
+        .step-number {
+            display:inline-block;
+            width:30px;
+            height:30px;
+            background:#0f3460;
+            border-radius:50%;
+            text-align:center;
+            line-height:30px;
+            margin-right:10px;
+            font-weight:bold;
+            color:#00d4ff;
+        }
+
+        .step-title {
+            display:inline;
+            font-weight:bold;
+            font-size:1.1em;
+        }
+
+        .step-detail {
+            margin-top:10px;
+            color:#aaa;
+            font-size:0.9em;
+            padding-left:40px;
+        }
+
+        .arrow {
+            text-align:center;
+            font-size:1.5em;
+            color:#0f3460;
+            margin:5px 0;
+        }
+
+        .controls {
+            text-align:center;
+            margin:30px 0;
+        }
+
+        button {
+            background:#00d4ff;
+            color:#1a1a2e;
+            border:none;
+            padding:12px 30px;
+            border-radius:5px;
+            font-size:1em;
+            cursor:pointer;
+            margin:5px;
+            font-weight:bold;
+            transition:background 0.3s;
+        }
+
+        button:hover {
+            background:#00ff88;
+        }
+
+        button:disabled {
+            background:#555;
+            cursor:not-allowed;
+        }
+
+        .url-input {
+            background:#16213e;
+            border:2px solid #0f3460;
+            color:#eee;
+            padding:12px 20px;
+            border-radius:25px;
+            font-size:1em;
+            width:100%;
+            max-width:500px;
+            margin-bottom:20px;
+            text-align:center;
+        }
+
+        .url-input:focus {
+            outline:none;
+            border-color:#00d4ff;
+        }
+
+        .log {
+            background:#0a0a1a;
+            border:1px solid #333;
+            border-radius:8px;
+            padding:15px;
+            margin-top:30px;
+            font-family:'Courier New',monospace;
+            font-size:0.85em;
+            max-height:200px;
+            overflow-y:auto;
+        }
+
+        .log-entry {
+            margin:3px 0;
+            color:#00ff88;
+        }
+
+        .log-entry.request {
+            color:#00d4ff;
+        }
+
+        .log-entry.response {
+            color:#ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <h1>How a Website Works</h1>
+
+    <div class="cycle-container">
+        <div style="text-align: center;">
+            <input type="text"
+                   class="url-input"
+                   id="urlInput"
+                   value="https://www.example.com"
+                   placeholder="Enter a URL..."
+            >
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" onclick="startSimulation()">
+                Start Request
+            </button>
+            <button id="nextBtn" onclick="nextStep()" disabled>
+                Next Step
+            </button>
+            <button onclick="resetSimulation()">
+                Reset
+            </button>
+        </div>
+
+        <div id="steps">
+            <div class="step" id="step-0">
+                <span class="step-number">1</span>
+                <span class="step-title">User</span>
+                <div class="step-detail">
+                    User types URL and presses Enter
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-1">
+                <span class="step-number">2</span>
+                <span class="step-title">Browser</span>
+                <div class="step-detail">
+                    Browser parses the URL and prepares to make a request
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-2">
+                <span class="step-number">3</span>
+                <span class="step-title">DNS Resolution</span>
+                <div class="step-detail">
+                    Domain name is translated to IP address
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-3">
+                <span class="step-number">4</span>
+                <span class="step-title">Internet</span>
+                <div class="step-detail">
+                    Request travels across the network to the server
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-4">
+                <span class="step-number">5</span>
+                <span class="step-title">Web Server</span>
+                <div class="step-detail">
+                    Server receives the HTTP request
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-5">
+                <span class="step-number">6</span>
+                <span class="step-title">Application</span>
+                <div class="step-detail">
+                    Application processes business logic and routes
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-6">
+                <span class="step-number">7</span>
+                <span class="step-title">Database</span>
+                <div class="step-detail">
+                    Database is queried for requested data
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-7">
+                <span class="step-number">8</span>
+                <span class="step-title">Response Generated</span>
+                <div class="step-detail">
+                    Server creates HTTP response with data (HTML/JSON)
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+
+            <div class="step" id="step-8">
+                <span class="step-number">9</span>
+                <span class="step-title">Browser Renders</span>
+                <div class="step-detail">
+                    Browser parses HTML, CSS, JS and renders the page
+                </div>
+            </div>
+        </div>
+
+        <div class="log" id="log">
+            <div class="log-entry">
+                // Request-Response cycle log
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep= -1;
+        const totalSteps = 9;
+        const log = document.getElementById('log');
+
+        const logMessages = [
+            { text:'> User initiates request for: ', type:'request' },
+            {
+                text:'> Browser parses URL → Protocol: https, '
+                    + 'Host: www.example.com, Path: /',
+                type:'request'
+            },
+            {
+                text:'> DNS Lookup: www.example.com → 93.184.216.34',
+                type:'request'
+            },
+            {
+                text:'> TCP Connection established '
+                    + '(SYN → SYN-ACK → ACK)',
+                type:'request'
+            },
+            {
+                text:'> GET / HTTP/1.1\n  Host: www.example.com\n  '
+                    + 'Accept: text/html',
+                type:'request'
+            },
+            {
+                text:'> Application route matched: '
+                    + 'GET / → homeController',
+                type:'response'
+            },
+            {
+                text:'> Database query: '
+                    + 'SELECT * FROM pages WHERE slug = "home"',
+                type:'response'
+            },
+            {
+                text:'> HTTP/1.1 200 OK\n  Content-Type: text/html\n  '
+                    + 'Content-Length: 1256',
+                type:'response'
+            },
+            {
+                text:'> Parsing HTML → Building DOM → '
+                    + 'Applying CSS → Executing JS → Page Rendered!',
+                type:'response'
+            }
+        ];
+
+        function addLog(message,type) {
+            const entry = document.createElement('div');
+            entry.className= `log-entry ${type}`;
+            entry.textContent= message;
+            log.appendChild(entry);
+            log.scrollTop= log.scrollHeight;
+        }
+
+        function startSimulation() {
+            resetSimulation();
+            document.getElementById('startBtn').disabled= true;
+            document.getElementById('nextBtn').disabled= false;
+            const url = document.getElementById('urlInput').value;
+            addLog(`> User initiates request for: ${url}`,'request');
+            currentStep= 0;
+            document.getElementById('step-0').classList.add('active');
+        }
+
+        function nextStep() {
+            if (currentStep>= 0) {
+                document.getElementById(`step-${currentStep}`)
+                    .classList.remove('active');
+                document.getElementById(`step-${currentStep}`)
+                    .classList.add('completed');
+            }
+
+            currentStep++;
+
+            if (currentStep< totalSteps) {
+                document.getElementById(`step-${currentStep}`)
+                    .classList.add('active');
+
+                if (currentStep< logMessages.length) {
+                    addLog(
+                        logMessages[currentStep].text,
+                        logMessages[currentStep].type
+                    );
+                }
+            }
+
+            if (currentStep>= totalSteps- 1) {
+                document.getElementById('nextBtn').disabled= true;
+                addLog(
+                    '> ✓ Request-Response cycle complete!',
+                    'response'
+                );
+            }
+        }
+
+        function resetSimulation() {
+            currentStep= -1;
+            document.getElementById('startBtn').disabled= false;
+            document.getElementById('nextBtn').disabled= true;
+
+            for (let i= 0; i< totalSteps; i++) {
+                const step = document.getElementById(`step-${i}`);
+                step.classList.remove('active','completed');
+            }
+
+            log.innerHTML= '<div class="log-entry">'
+                + '// Request-Response cycle log</div>';
+        }
+    </script>
+</body>
+</html>
