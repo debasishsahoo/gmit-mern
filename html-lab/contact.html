@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us — The Community Cookbook</title>
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a> |
+            <a href="recipes.html">Recipes</a> |
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        <section>
+            <h2>Get In Touch</h2>
+            <p>We would love to hear from you! Whether you have a question,
+            feedback, or a recipe suggestion, reach out using the form below.</p>
+
+            <p><strong>Email:</strong>
+            <a href="mailto:hello@communitycookbook.com">hello@communitycookbook.com</a></p>
+            <p><strong>Phone:</strong>
+            <a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+        </section>
+
+        <section>
+            <h2>Send Us a Message</h2>
+            <form action="#" method="POST">
+                <fieldset>
+                    <legend>Contact Form</legend>
+
+                    <label for="contact-name">Your Name:</label><br>
+                    <input type="text" id="contact-name" name="name"
+                           placeholder="Your full name" required>
+                    <br><br>
+
+                    <label for="contact-email">Your Email:</label><br>
+                    <input type="email" id="contact-email" name="email"
+                           placeholder="your@email.com" required>
+                    <br><br>
+
+                    <label for="contact-subject">Subject:</label><br>
+                    <select id="contact-subject" name="subject" required>
+                        <option value="">-- Choose a Subject --</option>
+                        <option value="feedback">General Feedback</option>
+                        <option value="bug">Report a Problem</option>
+                        <option value="recipe">Recipe Suggestion</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <br><br>
+
+                    <label for="contact-message">Message:</label><br>
+                    <textarea id="contact-message" name="message" rows="6" cols="50"
+                              placeholder="Write your message here..."
+                              required></textarea>
+                    <br><br>
+
+                    <button type="submit">Send Message</button>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2024 The Community Cookbook.</p>
+        <p><a href="index.html">← Back to Home</a></p>
+    </footer>
+</body>
+</html>
