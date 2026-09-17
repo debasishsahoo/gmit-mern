@@ -1,0 +1,26 @@
+{
+  "name": "node_basics",
+  "version": "1.0.0",
+  "description": "this is a Node Basic program",
+  "keywords": [
+    "node",
+    "express",
+    "mongodb",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "debasish sahoo",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
